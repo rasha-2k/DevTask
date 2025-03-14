@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DevTasks Frontend Components</title>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <!-- styles -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body id="body" class="bg bg-gray-100 text-gray-800">
+    <!-- Navbar Component -->
+    <nav class="bg-white shadow px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+            <span class="text-xl font-bold text-blue-600 cursor-pointer"
+                onclick="showSection('dashboardPage')">DevTasks</span>
+            <ul class="flex space-x-4">
+                <li><a href="javascript:void(0)" class="hover:text-blue-600"
+                        onclick="showSection('dashboardPage')">Dashboard</a></li>
+                <li><a href="javascript:void(0)" class="hover:text-blue-600"
+                        onclick="showSection('projectsPage')">Projects</a></li>
+                <li><a href="javascript:void(0)" class="hover:text-blue-600"
+                        onclick="showSection('tasksPage')">Tasks</a></li>
+                <li><a href="javascript:void(0)" class="hover:text-blue-600"
+                        onclick="showSection('favouritesPage')">Favourites</a></li>
+            </ul>
+        </div>
+        <div class="flex items-center space-x-4">
+            <button id="toggleDark" class="material-icons text-gray-600 hover:text-blue-600">dark_mode</button>
+            <!-- Profile Avatar Button -->
+            <div class="relative">
+                <span onclick="toggleUserSidebar()" class="material-icons text-blue-600 hover:text-blue-800 text-3xl cursor-pointer border border-gray-300 rounded-full p-1 bg-white">
+                    person
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar Component (visible on larger screens) -->
+    <div class="flex">
+        <aside class="w-64 bg-white shadow-md min-h-screen hidden md:block">
+            <nav class="mt-5">
+                <ul class="space-y-2 p-4">
+                    <li>
+                        <a href="javascript:void(0)" onclick="showSection('dashboardPage')"
+                            class="flex items-center space-x-2 text-blue-600">
+                            <span class="material-icons">dashboard</span><span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" onclick="showSection('projectsPage')"
+                            class="flex items-center space-x-2">
+                            <span class="material-icons">folder</span><span>Projects</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" onclick="showSection('tasksPage')"
+                            class="flex items-center space-x-2">
+                            <span class="material-icons">check_circle</span><span>Tasks</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" onclick="showSection('favouritesPage')"
+                            class="flex items-center space-x-2">
+                            <span class="material-icons">star</span><span>Favourites</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Page Container -->
+        <main class="bg flex-1 p-6">
+            <!-- Dashboard Page -->
+            <section id="dashboardPage" class="page-section">
+                <h1 class="text-2xl font-semibold mb-2">Dashboard</h1>
+                <p class="text-gray-500 text-sm mb-4">Overview of your projects and tasks</p>
+                <!-- StatCard Components Row -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <!-- Example StatCard -->
+                    <div class="bg-white p-4 shadow rounded-lg">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500">Total Projects</p>
+                                <p class="text-xl font-bold">12</p>
+                            </div>
+                            <span class="material-icons text-blue-500 text-3xl">folder</span>
+                        </div>
+                        <p class="text-sm text-green-500 mt-2">+2 from last week</p>
+                    </div>
+                    <div class="bg-white p-4 shadow rounded-lg">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500">Tasks Completed</p>
+                                <p class="text-xl font-bold">87</p>
+                            </div>
+                            <span class="material-icons text-green-500 text-3xl">check_circle</span>
+                        </div>
+                        <p class="text-sm text-red-500 mt-2">-5 from last week</p>
+                    </div>
+                    <div class="bg-white p-4 shadow rounded-lg">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500">Pending Tasks</p>
+                                <p class="text-xl font-bold">24</p>
+                            </div>
+                            <span class="material-icons text-yellow-500 text-3xl">pending</span>
+                        </div>
+                        <p class="text-sm text-green-500 mt-2">+3 from last week</p>
+                    </div>
+                    <div class="bg-white p-4 shadow rounded-lg">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500">Upcoming Deadlines</p>
+                                <p class="text-xl font-bold">5</p>
+                            </div>
+                            <span class="material-icons text-red-500 text-3xl">event</span>
+                        </div>
+                        <p class="text-sm text-green-500 mt-2">No change</p>
+                    </div>
+                </div>
+                <!-- User Profile Page -->
+                <section id="profilePage" class="page-section hidden">
+                    <div class="mb-4 flex justify-between items-center">
+                    <button class="bg-gray-300 text-gray-800 px-3 py-1 rounded" onclick="showSection('dashboardPage')">
+                        &larr; Back to Dashboard
+                    </button>
+                    <h1 class="text-2xl font-bold">User Profile</h1>
+                    </div>
+                
+                    <div class="bg-white p-6 shadow rounded-lg mb-6">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <img src="https://via.placeholder.com/100" alt="User Avatar" class="rounded-full w-24 h-24" />
+                        <div>
+                        <h2 class="text-2xl font-semibold">Rasha Alsaleh</h2>
+                        <p class="text-gray-500">rasha@example.com</p>
+                        <p class="text-sm text-gray-400 mt-1">Role: Project Manager</p>
+                        </div>
+                    </div>
+                
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="bg-gray-100 p-4 rounded">
+                        <p class="text-sm text-gray-500">Tasks Assigned</p>
+                        <p class="text-2xl font-bold">24</p>
+                        </div>
+                        <div class="bg-gray-100 p-4 rounded">
+                        <p class="text-sm text-gray-500">Projects Involved</p>
+                        <p class="text-2xl font-bold">5</p>
+                        </div>
+                        <div class="bg-gray-100 p-4 rounded">
+                        <p class="text-sm text-gray-500">Completed Tasks</p>
+                        <p class="text-2xl font-bold">18</p>
+                        </div>
+                    </div>
+                
+                    <div class="mt-8">
+                        <h3 class="text-xl font-semibold mb-2">Skills & Expertise</h3>
+                        <ul class="list-disc list-inside text-gray-600">
+                        <li>Project Management</li>
+                        <li>Agile Development</li>
+                        <li>Quality Control</li>
+                        </ul>
+                    </div>
+                
+                    <div class="mt-6">
+                        <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" onclick="showSection('settingsPage')">
+                        Go to Profile Settings
+                        </button>
+                    </div>
+                    </div>
+                </section>  
+                <!-- TaskStatusChart Component in Dashboard Section -->
+                <div class="bg-white p-4 shadow rounded-lg mb-6">
+                    <div class="flex items-center justify-between mb-2">
+                        <h2 class="text-lg font-semibold">Task Status Chart</h2>
+                        <!-- Dropdown for Chart Type -->
+                        <select id="chartTypeSelector" class="border p-1 rounded"
+                            onchange="updateChartType(this.value)">
+                            <option value="doughnut">Doughnut</option>
+                            <option value="pie">Pie</option>
+                            <option value="bar">Bar (Column)</option>
+                            <option value="line">Line</option>
+                            <option value="polarArea">Polar Area</option>
+                            <option value="radar">Radar</option>
+                        </select>
+                    </div>
+                    <!-- Adjusted canvas size: smaller height (h-48) -->
+                    <canvas id="dashboardTaskChart" class="w-full h-48"></canvas>
+                </div>
+
+
+                <!-- Quick Links Section -->
+                <div class="mt-8">
+                    <h2 class="text-lg font-semibold mb-2">Quick Links</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <button class="bg-blue-100 text-blue-800 p-4 rounded-lg shadow hover:bg-blue-200 transition"
+                            onclick="alert('Create New Task')">
+                            <div class="flex items-center space-x-2">
+                                <span class="material-icons">add_circle</span>
+                                <span>Create New Task</span>
+                            </div>
+                        </button>
+                        <button class="bg-green-100 text-green-800 p-4 rounded-lg shadow hover:bg-green-200 transition"
+                            onclick="alert('Manage Teams')">
+                            <div class="flex items-center space-x-2">
+                                <span class="material-icons">group</span>
+                                <span>Manage Teams</span>
+                            </div>
+                        </button>
+                        <button
+                            class="bg-yellow-100 text-yellow-800 p-4 rounded-lg shadow hover:bg-yellow-200 transition"
+                            onclick="alert('View Reports')">
+                            <div class="flex items-center space-x-2">
+                                <span class="material-icons">assignment</span>
+                                <span>View Reports</span>
+                            </div>
+                        </button>
+                        <button class="bg-red-100 text-red-800 p-4 rounded-lg shadow hover:bg-red-200 transition"
+                            onclick="showSection('accountsettings')">
+                            <div class="flex items-center space-x-2">
+                                <span class="material-icons">settings</span>
+                                <span>Account Settings</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- RecentActivityFeed Component -->
+                <div class="bg-white p-4 shadow rounded-lg mt-8">
+                    <h2 class="text-lg font-semibold mb-2">Recent Activity</h2>
+                    <ul>
+                        <li class="flex items-center mb-3">
+                            <img src="https://via.placeholder.com/32" alt="User" class="rounded-full mr-3" />
+                            <div>
+                                <p class="text-sm">Rasha Alsaleh updated <span class="font-semibold">Project Alpha</span></p>
+                                <p class="text-xs text-gray-500">5 minutes ago</p>
+                            </div>
+                        </li>
+                        <li class="flex items-center mb-3">
+                            <img src="https://via.placeholder.com/32" alt="User" class="rounded-full mr-3" />
+                            <div>
+                                <p class="text-sm">Jane Smith completed a task in <span class="font-semibold">Project
+                                        Beta</span></p>
+                                <p class="text-xs text-gray-500">20 minutes ago</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Projects Page -->
+            <section id="projectsPage" class="page-section hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h1 class="text-2xl font-semibold">Projects</h1>
+                    <button onclick="showSection('createProjectPage')" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                        + Create New Project
+                    </button>
+                </div>
+                <p class="text-gray-500 text-sm mb-4">Manage and review your projects</p>
+                <!-- ProjectFilterBar Component -->
+                <div class="bg-white p-4 shadow rounded-lg mb-6 flex flex-wrap items-center gap-4">
+                    <input type="text" placeholder="Search projects..." class="border p-2 rounded w-1/3" />
+                    <select class="border p-2 rounded">
+                        <option value="">Status: All</option>
+                        <option value="active">Active</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                    <input type="date" class="border p-2 rounded" />
+                    <select class="border p-2 rounded">
+                        <option value="">Assigned To</option>
+                        <option value="me">Me</option>
+                        <option value="team">Team</option>
+                    </select>
+
+                    <select class="border p-2 rounded">
+                        <option value="">Sort by</option>
+                        <option value="date">Due Date</option>
+                        <option value="progress">Progress</option>
+                    </select>
+                    <div class="flex items-center space-x-2">
+                        <button class="bg text-white px-3 py-1 rounded hover:bg-gray-200 hover:text-black">Grid</button>
+                        <button class="bg text-white px-3 py-1 rounded hover:bg-gray-200 hover:text-black">List</button>
+                    </div>
+                </div>
+
+                <!-- List of ProjectCard Components -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Example ProjectCard -->
+                    <div class="bg-white p-4 shadow rounded-lg cursor-pointer" onclick="showSection('projectDetailsPage')">
+                        <img src="https://via.placeholder.com/400x200" alt="Project"
+                            class="w-full h-32 object-cover rounded mb-3" />
+                        <h2 class="text-xl font-semibold">Project Alpha</h2>
+                        <p class="text-sm text-gray-500 mb-2">A brief description of Project Alpha goes here.</p>
+                        <!-- Progress Indicator -->
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                            <div class="bg-blue-600 h-2 rounded-full" style="width: 70%"></div>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-500">Due: 2025-04-30</span>
+                            <span class="bg-green-100 text-green-600 px-2 rounded-full">Active</span>
+                        </div>
+                        <!-- Quick Actions Menu (Placeholder) -->
+                        <div class="mt-3">
+                            <button class="text-blue-600 hover:underline">Edit</button>
+                            <button class="text-red-600 hover:underline ml-2">Delete</button>
+                        </div>
+                    </div>
+                    <!-- Example ProjectCard -->
+                    <div class="bg-white p-4 shadow rounded-lg cursor-pointer" onclick="showSection('projectDetailsPage')">
+                        <img src="https://via.placeholder.com/400x200" alt="Project"
+                            class="w-full h-32 object-cover rounded mb-3" />
+                        <h2 class="text-xl font-semibold">Project Alpha</h2>
+                        <p class="text-sm text-gray-500 mb-2">A brief description of Project Alpha goes here.</p>
+                        <!-- Progress Indicator -->
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                            <div class="bg-blue-600 h-2 rounded-full" style="width: 70%"></div>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-500">Due: 2025-04-30</span>
+                            <span class="bg-green-100 text-green-600 px-2 rounded-full">Active</span>
+                        </div>
+                        <!-- Quick Actions Menu (Placeholder) -->
+                        <div class="mt-3">
+                            <button class="text-blue-600 hover:underline">Edit</button>
+                            <button class="text-red-600 hover:underline ml-2">Delete</button>
+                        </div>
+                    </div>
+                    <!-- Example ProjectCard -->
+                    <div class="bg-white p-4 shadow rounded-lg cursor-pointer" onclick="showSection('projectDetailsPage')">
+                        <img src="https://via.placeholder.com/400x200" alt="Project"
+                            class="w-full h-32 object-cover rounded mb-3" />
+                        <h2 class="text-xl font-semibold">Project Alpha</h2>
+                        <p class="text-sm text-gray-500 mb-2">A brief description of Project Alpha goes here.</p>
+                        <!-- Progress Indicator -->
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                            <div class="bg-blue-600 h-2 rounded-full" style="width: 70%"></div>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-500">Due: 2025-04-30</span>
+                            <span class="bg-green-100 text-green-600 px-2 rounded-full">Active</span>
+                        </div>
+                        <!-- Quick Actions Menu (Placeholder) -->
+                        <div class="mt-3">
+                            <button class="text-blue-600 hover:underline">Edit</button>
+                            <button class="text-red-600 hover:underline ml-2">Delete</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- TeamMembersList Component -->
+                <div class="bg-white p-4 shadow rounded-lg mt-6">
+                    <h2 class="text-lg font-semibold mb-2">Team Members</h2>
+                    <ul class="space-y-2">
+                        <li class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <img src="https://via.placeholder.com/32" alt="Member" class="rounded-full mr-3" />
+                                <span>Rasha Alsaleh (Admin)</span>
+                            </div>
+                            <div>
+                                <button class="text-blue-600 hover:underline">Edit</button>
+                                <button class="text-red-600 hover:underline ml-2">Remove</button>
+                            </div>
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <img src="https://via.placeholder.com/32" alt="Member" class="rounded-full mr-3" />
+                                <span>Jane Smith (Member)</span>
+                            </div>
+                            <div>
+                                <button class="text-blue-600 hover:underline">Edit</button>
+                                <button class="text-red-600 hover:underline ml-2">Remove</button>
+                            </div>
+                        </li>
+                    </ul>
+                    <button class="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Add New Member</button>
+                </div>
+
+                <!-- GanttChartView Component (Optional) -->
+                <div class="bg-white p-4 shadow rounded-lg mt-6">
+                    <h2 class="text-lg font-semibold mb-2">Project Timeline (Gantt Chart)</h2>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full text-sm">
+                            <thead>
+                                <tr>
+                                    <th class="px-4 py-2 text-left">Task</th>
+                                    <th class="px-4 py-2 text-left">Start</th>
+                                    <th class="px-4 py-2 text-left">End</th>
+                                    <th class="px-4 py-2 text-left">Duration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-t">
+                                    <td class="px-4 py-2">Design</td>
+                                    <td class="px-4 py-2">2025-04-01</td>
+                                    <td class="px-4 py-2">2025-04-05</td>
+                                    <td class="px-4 py-2">5 days</td>
+                                </tr>
+                                <tr class="border-t">
+                                    <td class="px-4 py-2">Development</td>
+                                    <td class="px-4 py-2">2025-04-06</td>
+                                    <td class="px-4 py-2">2025-04-20</td>
+                                    <td class="px-4 py-2">15 days</td>
+                                </tr>
+                                <tr class="border-t">
+                                    <td class="px-4 py-2">Testing</td>
+                                    <td class="px-4 py-2">2025-04-21</td>
+                                    <td class="px-4 py-2">2025-04-25</td>
+                                    <td class="px-4 py-2">5 days</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tasks Page -->
+            <section id="tasksPage" class="page-section hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h1 class="text-2xl font-semibold">Tasks</h1>
+                    <button onclick="showSection('createTaskPage')" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                        + Create New Task
+                    </button>
+                </div>
+                <p class="text-gray-500 text-sm mb-4">Review and manage your tasks</p>
+                <!-- TaskList Component -->
+                <div class="bg-white p-4 shadow rounded-lg mb-6">
+                    <table class="min-w-full text-sm">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2 text-left">Task</th>
+                                <th class="px-4 py-2 text-left">Assignee</th>
+                                <th class="px-4 py-2 text-left">Due Date</th>
+                                <th class="px-4 py-2 text-left">Priority</th>
+                                <th class="px-4 py-2 text-left">Status</th>
+                                <!-- <th class="px-4 py-2 text-left">Actions</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-t" onclick="showSection('taskDetailsPage');">
+                                <td class="px-4 py-2">Fix login bug</td>
+                                <td class="px-4 py-2 flex items-center">
+                                    <!-- <img src="https://via.placeholder.com/24" alt="Assignee"
+                                        class="rounded-full mr-2" /> -->
+                                    <span class="material-icons text-blue-500">person</span>
+                                    Rasha Alsaleh
+                                </td>
+                                <td class="px-4 py-2">2025-04-10</td>
+                                <td class="px-4 py-2">High</td>
+                                <td class="px-4 py-2">
+                                    <span class="bg-yellow-100 text-yellow-600 px-2 rounded-full">In Progress</span>
+                                </td>
+                                <!-- <td class="px-4 py-2">
+                                    <button class="text-blue-600 hover:underline">Edit</button>
+                                    <button class="text-red-600 hover:underline ml-2">Delete</button>
+                                </td> -->
+                            </tr>
+                            <tr class="border-t" onclick="showSection('taskDetailsPage');">
+                                <td class="px-4 py-2">Fix login bug</td>
+                                <td class="px-4 py-2 flex items-center">
+                                    <span class="material-icons text-blue-500">person</span>
+                                    Rasha Alsaleh
+                                </td>
+                                <td class="px-4 py-2">2025-04-10</td>
+                                <td class="px-4 py-2">High</td>
+                                <td class="px-4 py-2">
+                                    <span class="bg-yellow-100 text-yellow-600 px-2 rounded-full">In Progress</span>
+                                </td>
+                                <!-- <td class="px-4 py-2">
+                                    <button class="text-blue-600 hover:underline">Edit</button>
+                                    <button class="text-red-600 hover:underline ml-2">Delete</button>
+                                </td> -->
+                            </tr>
+                            <tr class="border-t" onclick="showSection('taskDetailsPage');">
+                                <td class="px-4 py-2">Fix login bug</td>
+                                <td class="px-4 py-2 flex items-center">
+                                    <span class="material-icons text-blue-500">person</span>
+                                    Rasha Alsaleh
+                                </td>
+                                <td class="px-4 py-2">2025-04-10</td>
+                                <td class="px-4 py-2">High</td>
+                                <td class="px-4 py-2">
+                                    <span class="bg-yellow-100 text-yellow-600 px-2 rounded-full">In Progress</span>
+                                </td>
+                                <!-- <td class="px-4 py-2">
+                                    <button class="text-blue-600 hover:underline">Edit</button>
+                                    <button class="text-red-600 hover:underline ml-2">Delete</button>
+                                </td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- TaskCard & TaskStatusToggle Example -->
+                <!-- <div class="bg-white p-4 shadow rounded-lg mb-6" onclick="showSection('taskDetailsPage');">
+                    <h2 class="text-lg font-semibold mb-2">Task Details</h2>
+                    <div class="p-4 border rounded mb-4">
+                        <h3 class="text-xl font-semibold">Implement Notification Feature</h3>
+                        <p class="text-sm text-gray-500 mb-2">Assign notifications to alert users on task updates.</p>
+                        <div class="flex items-center space-x-4">
+                            <span class="material-icons text-blue-500">person</span>
+                            <span>Jane Smith</span>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2">Due: 2025-04-15</p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button class="bg-yellow-200 text-white px-3 py-1 rounded hover:bg-yellow-300">To Do</button>
+                        <button class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">In Progress</button>
+                        <button class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">Done</button>
+                    </div>
+                </div> -->
+                <!-- TaskCommentSection Component -->
+                <div class="bg-white p-4 shadow rounded-lg">
+                    <h2 class="text-lg font-semibold mb-2">Comments</h2>
+                    <textarea placeholder="Add a comment..." class="w-full p-2 border rounded mb-4"></textarea>
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded">Submit Comment</button>
+                    <div class="mt-4">
+                        <div class="border-t pt-2">
+                            <p class="text-sm"><strong>Rasha Alsaleh:</strong> I think this feature is critical!</p>
+                            <p class="text-xs text-gray-500">10 minutes ago</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Task Details Page -->
+            <section id="taskDetailsPage" class="page-section hidden">
+                <div class="mb-4 flex justify-between items-center">
+                <button class="bg-green-400 text-black px-3 py-1 rounded hover:bg-green-500" onclick="showSection('tasksPage')">
+                    &larr; Back to Tasks
+                </button>
+                <div>
+                    <!-- Task status indicator -->
+                    <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full">In Progress</span>
+                </div>
+                </div>
+            
+                <!-- Task Header -->
+                <div class="bg-white p-6 shadow rounded-lg mb-6">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                    <div>
+                    <h1 class="text-3xl font-bold mb-2">Task: Fix Login Bug</h1>
+                    <p class="text-gray-500 mb-2">
+                        Detailed description of the task goes here. This task involves resolving issues with the login form and ensuring a smooth authentication flow.
+                    </p>
+                    <p class="text-gray-500">
+                        Due Date: <span class="font-semibold">2025-04-10</span>
+                    </p>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mr-2" onclick="showSection('createTaskPage')">
+                        Edit Task
+                    </button>
+                    <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700" onclick="openConfirmation()">
+                        Delete Task
+                    </button>
+                    </div>
+                </div>
+                </div>
+            
+                <!-- Task Status Toggle -->
+                <div class="bg-white p-4 shadow rounded-lg mb-6">
+                <h2 class="text-xl font-semibold mb-4">Update Task Status</h2>
+                <div class="flex space-x-2">
+                    <button class="bg-yellow-200 text-white px-3 py-1 rounded hover:bg-yellow-300">To Do</button>
+                    <button class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">In Progress</button>
+                    <button class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">Done</button>
+                </div>
+                </div>
+            
+                <!-- Comments Section -->
+                <div class="bg-white p-4 shadow rounded-lg mb-6">
+                <h2 class="text-xl font-semibold mb-4">Comments</h2>
+                <textarea placeholder="Add a comment..." class="w-full p-2 border rounded mb-4"></textarea>
+                <button class="bg-blue-600 text-white px-4 py-2 rounded">Submit Comment</button>
+                <div class="mt-4">
+                    <div class="border-t pt-2">
+                    <p class="text-sm"><strong>Rasha Alsaleh:</strong> This bug is affecting many users, please prioritize it!</p>
+                    <p class="text-xs text-gray-500">15 minutes ago</p>
+                    </div>
+                    <div class="border-t pt-2 mt-2">
+                    <p class="text-sm"><strong>Jane Smith:</strong> I have started working on this issue.</p>
+                    <p class="text-xs text-gray-500">10 minutes ago</p>
+                    </div>
+                </div>
+                </div>
+            
+                <!-- Attachments Section -->
+                <div class="bg-white p-4 shadow rounded-lg">
+                <h2 class="text-xl font-semibold mb-4">Attachments</h2>
+                <p class="text-gray-500">No attachments yet.</p>
+                <button class="bg-blue-600 text-white px-4 py-2 rounded mt-4" onclick="alert('Upload attachment')">
+                    Upload Attachment
+                </button>
+                </div>
+            </section>  
+            <!-- Create/Edit Task Page -->
+            <section id="createTaskPage" class="page-section hidden">
+                <div class="mb-4 flex justify-between items-center">
+                <button class="bg-green-400 text-black px-3 py-1 rounded hover:bg-green-500" onclick="showSection('tasksPage')">
+                    &larr; Back to Tasks
+                </button>
+                <h1 class="text-2xl font-bold">Create/Edit Task</h1>
+                </div>
+                <div class="bg-white p-6 shadow rounded-lg">
+                <form id="taskForm" onsubmit="event.preventDefault(); saveTask();">
+                    <div class="mb-4">
+                    <label class="form-label" for="taskTitle">Task Title</label>
+                    <input type="text" id="taskTitle" class="form-input" placeholder="Enter task title" required />
+                    </div>
+                    <div class="mb-4">
+                    <label class="form-label" for="taskDescription">Task Description</label>
+                    <textarea id="taskDescription" class="form-input" placeholder="Enter task description" rows="4" required></textarea>
+                    </div>
+                    <div class="mb-4">
+                    <label class="form-label" for="taskAssignee">Assignee</label>
+                    <select id="taskAssignee" class="form-input">
+                        <option value="">Select Assignee</option>
+                        <option value="Rasha Alsaleh">Rasha Alsaleh</option>
+                        <option value="Jane Smith">Jane Smith</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    </div>
+                    <div class="mb-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="form-label" for="taskStatus">Status</label>
+                        <select id="taskStatus" class="form-input">
+                        <option value="todo">To Do</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="done">Done</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label" for="taskPriority">Priority</label>
+                        <select id="taskPriority" class="form-input">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label" for="taskDueDate">Due Date</label>
+                        <input type="date" id="taskDueDate" class="form-input" required />
+                    </div>
+                    </div>
+                    <div class="mb-4">
+                    <label class="form-label" for="taskProject">Project Association</label>
+                    <select id="taskProject" class="form-input">
+                        <option value="">Select Project</option>
+                        <option value="Project Alpha">Project Alpha</option>
+                        <option value="Project Beta">Project Beta</option>
+                        <!-- Add more project options as needed -->
+                    </select>
+                    </div>
+                    <div class="flex justify-end">
+                    <button type="button" class="bg-red-600 text-white px-4 py-2 rounded mr-2 hover:bg-red-700" onclick="showSection('tasksPage')">Cancel</button>
+                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Save Task</button>
+                    </div>
+                </form>
+                </div>
+            </section>  
+            <!-- Favourites Page -->
+            <section id="favouritesPage" class="page-section hidden">
+                <h1 class="text-2xl font-semibold mb-2">Favourites</h1>
+                <p class="text-gray-500 text-sm mb-4">Your favourited projects or tasks</p>
+                <div class="bg-white p-4 shadow rounded-lg">
+                    <p>No favourites yet.</p>
+                </div>
+            </section>
+            <!-- Account Settings Page -->
+            <section id="settingsPage" class="page-section hidden">
+                <div class="mb-4 flex justify-between items-center">
+                <button class="bg-green-400 text-black px-3 py-1 rounded hover:bg-green-500" onclick="showSection('profilePage')">
+                    &larr; Back to Profile
+                </button>
+                <h1 class="text-2xl font-bold">Account Settings</h1>
+                </div>
+            
+                <div class="bg-white p-6 shadow rounded-lg">
+                <form id="settingsForm" onsubmit="event.preventDefault(); saveProfileSettings();">
+                    <!-- Personal Info -->
+                    <div class="mb-6">
+                    <h2 class="text-xl font-semibold mb-2">Personal Information</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-input" id="settingsName" placeholder="John Doe" />
+                        </div>
+                        <div>
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-input" id="settingsEmail" placeholder="john@example.com" />
+                        </div>
+                    </div>
+                    </div>
+            
+                    <!-- Password Settings -->
+                    <div class="mb-6">
+                        <h2 class="text-xl font-semibold mb-2">Change Password</h2>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <input type="password" class="form-input" placeholder="Current Password" />
+                            <input type="password" class="form-input" placeholder="New Password" />
+                            <input type="password" class="form-input" placeholder="Confirm New Password" />
+                        </div>
+                    </div>
+
+            
+                    <!-- Save -->
+                    <div class="flex justify-end">
+                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Save Settings</button>
+                    </div>
+                </form>
+                </div>
+            </section>
+            
+            <!-- Authentication Page -->
+            <section id="authPage" class="page-section hidden">
+                <div class="auth-card">
+                    <!-- Auth Tabs -->
+                    <div class="auth-tabs">
+                        <div id="loginTab" class="auth-tab active" onclick="showAuthTab('login')">Login</div>
+                        <div id="registerTab" class="auth-tab" onclick="showAuthTab('register')">Register</div>
+                    </div>
+                    
+                    <!-- LoginForm Component -->
+                    <div id="loginForm" class="auth-form">
+                        <h2 class="auth-title">Welcome Back</h2>
+                        
+                        <!-- Social Login Options -->
+                        <button class="social-login-btn">
+                            <span class="material-icons social-icon">login</span>
+                            Continue with Google
+                        </button>
+                        <button class="social-login-btn">
+                            <span class="material-icons social-icon">facebook</span>
+                            Continue with Facebook
+                        </button>
+                        
+                        <div class="auth-divider">
+                            <span class="auth-divider-text">or login with email</span>
+                        </div>
+                        
+                        <form onsubmit="event.preventDefault(); loginUser();">
+                            <div class="mb-4">
+                                <label class="form-label" for="loginEmail">Email Address</label>
+                                <input type="email" id="loginEmail" class="form-input" placeholder="name@example.com" required />
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label" for="loginPassword">Password</label>
+                                <div class="password-wrapper">
+                                    <input id="loginPassword" type="password" class="form-input" placeholder="••••••••" required />
+                                    <button type="button" class="toggle-password-btn" onclick="togglePassword('loginPassword')">
+                                        <span class="material-icons">visibility</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-between items-center mb-4">
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" id="rememberMe">
+                                    <span class="checkmark"></span>
+                                    <span class="custom-checkbox-label">Remember me</span>
+                                </label>
+                                <a href="#" class="auth-link">Forgot password?</a>
+                            </div>
+                            
+                            <button type="submit" class="btn-auth btn-primary">Sign in</button>
+                        </form>
+                    </div>
+                    
+                    <!-- RegisterForm Component -->
+                    <div id="registerForm" class="auth-form hidden">
+                        <h2 class="auth-title">Create an Account</h2>
+                        
+                        <form onsubmit="event.preventDefault(); registerUser();">
+                            <div class="mb-4">
+                                <label class="form-label" for="registerName">Full Name</label>
+                                <input type="text" id="registerName" class="form-input" placeholder="Rasha Alsaleh" required />
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label" for="registerEmail">Email Address</label>
+                                <input type="email" id="registerEmail" class="form-input" placeholder="name@example.com" required />
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label" for="registerPassword">Password</label>
+                                <div class="password-wrapper">
+                                    <input id="registerPassword" type="password" class="form-input" placeholder="••••••••" required />
+                                    <button type="button" class="toggle-password-btn" onclick="togglePassword('registerPassword')">
+                                        <span class="material-icons">visibility</span>
+                                    </button>
+                                </div>
+                                <div class="text-xs text-muted mt-1">Must be at least 8 characters with 1 uppercase, 1 number</div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label" for="confirmPassword">Confirm Password</label>
+                                <div class="password-wrapper">
+                                    <input id="confirmPassword" type="password" class="form-input" placeholder="••••••••" required />
+                                    <button type="button" class="toggle-password-btn" onclick="togglePassword('confirmPassword')">
+                                        <span class="material-icons">visibility</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label" for="userRole">Role</label>
+                                <select id="userRole" class="form-input">
+                                    <option value="">Select Role</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="member">Member</option>
+                                </select>
+                            </div>
+                            
+                            <label class="custom-checkbox mb-4">
+                                <input type="checkbox" id="terms" required>
+                                <span class="checkmark"></span>
+                                <span class="custom-checkbox-label">I agree to the <a href="#" class="auth-link">Terms of Service</a> and <a href="#" class="auth-link">Privacy Policy</a></span>
+                            </label>
+                            
+                            <button type="submit" class="btn-auth btn-secondary">Create Account</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+            <!-- Project Details Page -->
+            <section id="projectDetailsPage" class="page-section hidden">
+                <div class="mb-4 flex justify-between items-center">
+                <button class="bg-green-400 text-black px-3 py-1 rounded hover:bg-green-500" onclick="showSection('projectsPage')">
+                    &larr; Back to Projects
+                </button>
+                <div>
+                    <!-- Project status summary -->
+                    <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full">Active</span>
+                </div>
+                </div>
+                <div class="bg-white p-6 shadow rounded-lg mb-6">
+                <!-- Project header -->
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                    <div>
+                    <h1 class="text-3xl font-bold mb-2">Project Alpha</h1>
+                    <p class="text-gray-500 mb-2">
+                        This is a brief description of Project Alpha. It outlines the objectives, scope, and expected outcomes.
+                    </p>
+                    <p class="text-gray-500">
+                        Deadline: <span class="font-semibold">2025-04-30</span>
+                    </p>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                    <!-- Action buttons -->
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mr-2">
+                        Edit Project
+                    </button>
+                    <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700" onclick="openConfirmation()">
+                        Delete Project
+                    </button>
+                    </div>
+                </div>
+                </div>
+            
+                <!-- Project Tabs -->
+                <div class="bg-white p-4 shadow rounded-lg mb-6">
+                <ul class="flex border-b">
+                    <li class="mr-4">
+                    <a href="javascript:void(0)" class="project-tab text-blue-600 border-b-2 border-blue-600" onclick="showProjectTab('overview')">Overview</a>
+                    </li>
+                    <li class="mr-4">
+                    <a href="javascript:void(0)" class="project-tab text-gray-600" onclick="showProjectTab('tasks')">Tasks</a>
+                    </li>
+                    <li class="mr-4">
+                    <a href="javascript:void(0)" class="project-tab text-gray-600" onclick="showProjectTab('gantt')">Gantt Chart</a>
+                    </li>
+                    <li class="mr-4">
+                    <a href="javascript:void(0)" class="project-tab text-gray-600" onclick="showProjectTab('team')">Team</a>
+                    </li>
+                </ul>
+                </div>
+            
+                <!-- Project Tab Content -->
+                <div id="projectTabContent" class="bg-white p-4 shadow rounded-lg">
+                <!-- Overview Tab as default -->
+                <div id="projectTabOverview" class="project-tab-content">
+                    <h2 class="text-2xl font-semibold mb-4">Overview</h2>
+                    <p class="text-gray-500">
+                    This section provides an overview of the project, including progress, key milestones, and important metrics.
+                    </p>
+                    <!-- Example progress bar -->
+                    <div class="w-full bg-gray-200 rounded-full h-2 mt-4 mb-4">
+                    <div class="bg-blue-600 h-2 rounded-full" style="width: 70%"></div>
+                    </div>
+                </div>
+                <div id="projectTabTasks" class="project-tab-content hidden">
+                    <h2 class="text-2xl font-semibold mb-4">Project Tasks</h2>
+                    <p class="text-gray-500">List of tasks associated with this project will be displayed here.</p>
+                </div>
+                <div id="projectTabGantt" class="project-tab-content hidden">
+                    <h2 class="text-2xl font-semibold mb-4">Project Timeline (Gantt Chart)</h2>
+                    <p class="text-gray-500">Gantt chart representation of project tasks and milestones will be shown here.</p>
+                </div>
+                <div id="projectTabTeam" class="project-tab-content hidden">
+                    <h2 class="text-2xl font-semibold mb-4">Team Members</h2>
+                    <p class="text-gray-500">Details about team members working on this project will be displayed here.</p>
+                </div>
+                </div>
+            </section>
+            <!-- Create/Edit Project Page -->
+            <section id="createProjectPage" class="page-section hidden">
+                <div class="mb-4 flex justify-between items-center">
+                <button class="bg-green-400 text-black px-3 py-1 rounded hover:bg-green-500" onclick="showSection('projectsPage')">
+                    &larr; Back to Projects
+                </button>
+                <h1 class="text-2xl font-bold">Create/Edit Project</h1>
+                </div>
+                <div class="bg-white p-6 shadow rounded-lg">
+                <form id="projectForm" onsubmit="event.preventDefault(); saveProject();">
+                    <div class="mb-4">
+                    <label class="form-label" for="projectTitle">Project Title</label>
+                    <input type="text" id="projectTitle" class="form-input" placeholder="Enter project title" required />
+                    </div>
+                    <div class="mb-4">
+                    <label class="form-label" for="projectDescription">Project Description</label>
+                    <textarea id="projectDescription" class="form-input" placeholder="Enter project description" rows="4" required></textarea>
+                    </div>
+                    <div class="mb-4">
+                    <label class="form-label" for="projectDeadline">Deadline</label>
+                    <input type="date" id="projectDeadline" class="form-input" required />
+                    </div>
+                    <div class="mb-4">
+                    <label class="form-label" for="projectTeam">Team Members</label>
+                    <!-- For simplicity, use a comma-separated list -->
+                    <input type="text" id="projectTeam" class="form-input" placeholder="Enter team member names, separated by commas" />
+                    </div>
+                    <div class="mb-4">
+                    <label class="form-label" for="projectStatus">Status</label>
+                    <select id="projectStatus" class="form-input">
+                        <option value="active">Active</option>
+                        <option value="completed">Completed</option>
+                        <option value="on-hold">On Hold</option>
+                    </select>
+                    </div>
+                    <div class="flex justify-end">
+                    <button type="button" class="bg-red-600 text-white px-4 py-2 rounded mr-2 hover:bg-red-700" onclick="showSection('projectsPage')">Cancel</button>
+                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Save Project</button>
+                    </div>
+                </form>
+                </div>
+            </section>  
+        </main>
+    </div>
+
+    <!-- Footer Component -->
+    <footer class="bg-white shadow text-sm text-center py-3 mt-10">
+        <p>&copy; 2025 DevTasks. All rights reserved.</p>
+        <p class="text-gray-400">Version 1.0.0</p>
+    </footer>
+
+    <!-- Custom Modal Markup -->
+    <div id="customModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded-lg w-1/3 relative">
+            <button class="absolute top-2 right-2 text-gray-600" onclick="closeModal()">&times;</button>
+            <h2 class="text-xl font-semibold mb-4">Custom Modal</h2>
+            <p>This is a reusable modal dialog. You can place any content here.</p>
+            <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+    <!-- Profile Sidebar -->
+    <div id="userSidebar" class="fixed top-0 right-0 w-64 h-full bg-white shadow-lg z-50 transform translate-x-full transition-transform duration-300">
+        <div class="p-4 border-b">
+        <div class="flex items-center space-x-3">
+            <img src="assets/images/logo black.png" class="rounded-full w-12 h-12 border" />
+            <div>
+            <p class="font-semibold">Rasha Alsaleh</p>
+            <p class="text-sm text-gray-500">rasha@example.com</p>
+            </div>
+        </div>
+        </div>
+        <div class="p-4 space-y-2">
+        <button onclick="showSection('profilePage'); closeUserSidebar();" class="sidebar-button w-full text-left px-3 py-2 rounded">👤 Your Profile</button>
+        <button onclick="showSection('settingsPage'); closeUserSidebar();" class="sidebar-button w-full text-left px-3 py-2 rounded">⚙️ Settings</button>
+        <button onclick="showAuthPage('login'); closeUserSidebar();" class="sidebar-button w-full text-left px-3 py-2 rounded">🔄 Change Account</button>
+        <button onclick="signOutUser()" class="sidebar-button w-full text-left px-3 py-2 rounded">🚪 Sign Out</button>
+        </div>
+        <div class="p-4 text-xs text-gray-400 border-t mt-4">
+        DevTasks v1.0.0<br>
+        Powered by Rasha ♥
+        </div>
+    </div>
+    
+    <!-- Overlay to close sidebar -->
+    <div id="userSidebarOverlay" class="hidden fixed inset-0 bg-black bg-opacity-30 z-40" onclick="closeUserSidebar()"></div>
+    
+    <!-- Confirmation Dialog Markup -->
+    <div id="confirmationDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded-lg w-1/3">
+            <h2 class="text-xl font-semibold mb-4">Confirm Action</h2>
+            <p class="mb-4">Are you sure you want to proceed?</p>
+            <div class="flex justify-end space-x-2">
+                <button class="bg-red-600 text-white hover:bg-red-700 px-4 py-2 rounded" onclick="closeConfirmation()">No</button>
+                <button class="bg-green-600 text-white hover:bg-green-700 px-4 py-2 rounded" onclick="confirmAction()">Yes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast Container -->
+    <div id="notificationContainer" class="fixed top-2 right-4 space-y-2"></div>
+
+    <!-- Scripts -->
+    <script src="assets/js/script.js"></script>
+
+
+</body>
+
+</html>
