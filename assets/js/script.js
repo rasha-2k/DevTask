@@ -394,12 +394,12 @@ if (appName.trim() !== "") {
 //***************! Charts !***************//
 
 //! Global variable to store the current chart type
-let currentChartType = 'doughnut';
+let currentChartType = 'bar';
 
 //! Create the default chart on page load
 window.addEventListener('DOMContentLoaded', () => {
     // ... other initialization code ...
-    createDashboardChart('doughnut');
+    createDashboardChart('bar');
 });
 
 // Global variable to store the chart instance

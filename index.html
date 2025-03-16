@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><span class="appName">DevTasks</span> Frontend Components</title>
+    <title class="appName">DevTasks</title>
     <!-- Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
     <!-- Chart.js -->
@@ -448,7 +448,7 @@
                             <div class="space-y-2">
                                 <label class="flex items-center">
                                     <input type="checkbox" class="mr-2" id="systemDarkTheme"
-                                        onchange="toggleDarkThemeSetting()" />
+                                        onchange="toggleDarkThemeSetting()" checked />
                                     Use dark theme globally (admin override)
                                 </label>
                             </div>
@@ -561,9 +561,9 @@
                         <!-- Dropdown for Chart Type -->
                         <select id="chartTypeSelector" class="border p-1 rounded"
                             onchange="updateChartType(this.value)">
+                            <option value="bar">Bar (Column)</option>
                             <option value="doughnut">Doughnut</option>
                             <option value="pie">Pie</option>
-                            <option value="bar">Bar (Column)</option>
                             <option value="line">Line</option>
                             <option value="polarArea">Polar Area</option>
                             <option value="radar">Radar</option>
