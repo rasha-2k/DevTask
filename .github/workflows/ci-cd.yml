@@ -1,0 +1,125 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: devtask_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: devtask_test
+      DB_SSLMODE: disable
+      DB_TIMEZONE: Asia/Amman
+      JWT_SECRET: test-jwt-secret-for-ci-only
+      GO_ENV: test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+
+      - name: Install dependencies
+        working-directory: ./backend
+        run: go mod download
+
+      - name: Wait for PostgreSQL
+        run: |
+          until pg_isready -h localhost -p 5432; do
+            sleep 2
+          done
+
+      - name: Setup test environment
+        working-directory: ./backend
+        run: |
+          cat > .env.test << EOF
+          DB_HOST=$DB_HOST
+          DB_PORT=$DB_PORT
+          DB_USER=$DB_USER
+          DB_PASSWORD=$DB_PASSWORD
+          DB_NAME=$DB_NAME
+          DB_SSLMODE=$DB_SSLMODE
+          DB_TIMEZONE=$DB_TIMEZONE
+          JWT_SECRET=$JWT_SECRET
+          GO_ENV=$GO_ENV
+          EOF
+
+      - name: Run migrations
+        working-directory: ./backend
+        run: go run main.go migrate
+
+      - name: Build verification
+        working-directory: ./backend
+        run: |
+          echo "Building project..."
+          go build -v ./...
+          echo "Project builds successfully!"
+
+      # TODO: Uncomment this section when tests are ready
+      # - name: Run unit tests
+      #   working-directory: ./backend
+      #   run: |
+      #     echo "Running unit tests..."
+      #     go test -v -coverprofile=unit-coverage.out ./tests/unit/...
+
+      # - name: Run integration tests
+      #   working-directory: ./backend
+      #   run: |
+      #     echo "Running integration tests..."
+      #     go test -v -coverprofile=integration-coverage.out ./tests/integration/...
+
+      # - name: Generate coverage report
+      #   working-directory: ./backend
+      #   run: |
+      #     echo "Merging coverage reports..."
+      #     echo "mode: atomic" > coverage.out
+      #     tail -n +2 unit-coverage.out >> coverage.out 2>/dev/null || true
+      #     tail -n +2 integration-coverage.out >> coverage.out 2>/dev/null || true
+      #     echo "Coverage Summary:"
+      #     go tool cover -func=coverage.out | tail -1
+
+      # - name: Upload coverage report
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: coverage-report
+      #     path: backend/coverage.out
+
+  docker:
+    name: Docker Build
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        working-directory: ./backend
+        run: docker build -t devtask-backend:latest .

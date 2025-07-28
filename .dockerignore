@@ -1,0 +1,14 @@
+# (frontend)
+frontend/build
+frontend/.env
+
+# (backend)
+backend/bin
+backend/*.log
+backend/vendor
+
+.env
+
+.vscode
+*.exe
+*.exe~
