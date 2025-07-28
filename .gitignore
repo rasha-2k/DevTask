@@ -1,0 +1,13 @@
+# (backend)
+backend/bin/
+backend/*.log
+backend/vendor/
+
+# Environment variables
+.env
+**/.env
+!.env.example
+
+.vscode/
+*.exe
+*.exe~
